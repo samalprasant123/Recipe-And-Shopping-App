@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 
 import { Ingredient } from '../../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list.service';
+import { getOrCreateNodeInjector } from '@angular/core/src/render3/di';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -45,6 +46,11 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     }
     this.editMode = false;
     form.reset();
+  }
+
+  onDelete() {
+    this.shoppingListService.deleteIngredient(this.editedItemIndex);
+    this.onClear();
   }
 
   onClear() {
