@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response} from '@angular/http';
+import { map } from 'rxjs/operators';
 
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
@@ -19,9 +20,22 @@ export class DataStorageService {
 
     getRecipes() {
         this.http.get(this.databaseRootUrl + this.recipeJson)
+            .pipe(
+                map(
+                    (response: Response) => {
+                        const recipes: Recipe[] = response.json();
+                        for (const recipe of recipes) {
+                            if (!recipe['ingredients']) {
+                                console.log(recipe);
+                                recipe['ingredients'] = [];
+                            }
+                        }
+                        return recipes;
+                    }
+                )
+            )
             .subscribe(
-                (response: Response) => {
-                    const recipes: Recipe[] = response.json();
+                (recipes: Recipe[]) => {
                     this.recipeService.setRecipes(recipes);
                 }
             );
