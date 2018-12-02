@@ -1,13 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   loadedFeature = 'recipe';
+
+  ngOnInit() {
+    firebase.initializeApp({
+      apiKey: 'AIzaSyDZFdON0_m_mBh-z4pp5ZW4LEUXLQ79rKs',
+      authDomain: 'ng-recipe-book-7e555.firebaseapp.com'
+    });
+  }
 
   onNavigate(feature: string) {
     this.loadedFeature = feature;
