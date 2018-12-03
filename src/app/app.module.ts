@@ -16,7 +16,7 @@ import { SigninComponent } from './auth/signin/signin.component';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth-guard.service';
 import { RecipesModule } from './recipes/recipes.module';
-import { DropdownDirective } from './shared/dropdown.directive';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,6 @@ import { DropdownDirective } from './shared/dropdown.directive';
     HeaderComponent,
     ShoppingListComponent,
     ShoppingEditComponent,
-    DropdownDirective,
     SignupComponent,
     SigninComponent
   ],
@@ -33,7 +32,8 @@ import { DropdownDirective } from './shared/dropdown.directive';
     FormsModule,
     HttpModule,
     RecipesModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule
   ],
   providers: [
     ShoppingListService,
