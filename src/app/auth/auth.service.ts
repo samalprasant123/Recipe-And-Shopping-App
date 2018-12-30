@@ -11,6 +11,15 @@ export class AuthService {
 
     signupUser(email: string, password: string) {
         firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(
+                response => {
+                    firebase.auth().currentUser.getIdToken()
+                        .then(
+                            (tokenFromFB) => this.token = tokenFromFB
+                        );
+                    this.router.navigate(['/']);
+                }
+            )
             .catch(
                 error => console.log(error)
             );
