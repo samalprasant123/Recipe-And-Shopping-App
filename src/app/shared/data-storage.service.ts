@@ -26,10 +26,15 @@ export class DataStorageService {
 
     getRecipes() {
         const token = this.authService.getToken();
-        this.httpClient.get<Recipe[]>(this.databaseRootUrl + this.recipeJson + '?auth=' + token)
+        // this.httpClient.get<Recipe[]>(this.databaseRootUrl + this.recipeJson + '?auth=' + token)
+        this.httpClient.get<Recipe[]>(this.databaseRootUrl + this.recipeJson + '?auth=' + token, {
+            observe: 'body',
+            responseType: 'json'
+        })
             .pipe(
                 map(
                     (recipes) => {
+                        // console.log(recipes);
                         for (const recipe of recipes) {
                             if (!recipe['ingredients']) {
                                 console.log(recipe);
@@ -37,6 +42,7 @@ export class DataStorageService {
                             }
                         }
                         return recipes;
+                        // return [];
                     }
                 )
             )
