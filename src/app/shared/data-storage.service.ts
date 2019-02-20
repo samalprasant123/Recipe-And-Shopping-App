@@ -18,10 +18,12 @@ export class DataStorageService {
 
     storeRecipes() {
         const token = this.authService.getToken();
-        const myHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+        // const myHeaders = new HttpHeaders({'Content-Type': 'application/json'});
         return this.httpClient.put(this.databaseRootUrl + this.recipeJson + '?auth=' + token,
             this.recipeService.getRecipes(),
-            {headers: myHeaders});
+            // { headers: myHeaders }
+            { observe: 'events' }
+            );
     }
 
     getRecipes() {
