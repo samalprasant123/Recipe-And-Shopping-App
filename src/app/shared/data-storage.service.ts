@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { RecipeService } from '../recipes/recipe.service';
@@ -20,12 +20,20 @@ export class DataStorageService {
         const token = this.authService.getToken();
         const myHeaders = new HttpHeaders({'Content-Type': 'application/json'});
         // const myHeaders = new HttpHeaders().set('Authorization, 'Bearer uyadnap62490fj9');
-        return this.httpClient.put(this.databaseRootUrl + this.recipeJson,
-            this.recipeService.getRecipes(), {
-                headers: myHeaders,
-                params: new HttpParams().set('auth', token),
-                observe: 'body'
-            });
+        // return this.httpClient.put(this.databaseRootUrl + this.recipeJson,
+        //     this.recipeService.getRecipes(), {
+        //         headers: myHeaders,
+        //         params: new HttpParams().set('auth', token),
+        //         observe: 'body'
+        //     });
+        const req = new HttpRequest('PUT',
+                            this.databaseRootUrl + this.recipeJson,
+                            this.recipeService.getRecipes(),
+                            {
+                                reportProgress: true,
+                                params: new HttpParams().set('auth', token),
+                            });
+        return this.httpClient.request(req);
     }
 
     getRecipes() {
