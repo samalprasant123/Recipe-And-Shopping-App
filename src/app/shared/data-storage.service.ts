@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { RecipeService } from '../recipes/recipe.service';
@@ -20,9 +20,10 @@ export class DataStorageService {
         const token = this.authService.getToken();
         const myHeaders = new HttpHeaders({'Content-Type': 'application/json'});
         // const myHeaders = new HttpHeaders().set('Authorization, 'Bearer uyadnap62490fj9');
-        return this.httpClient.put(this.databaseRootUrl + this.recipeJson + '?auth=' + token,
+        return this.httpClient.put(this.databaseRootUrl + this.recipeJson,
             this.recipeService.getRecipes(), {
                 headers: myHeaders,
+                params: new HttpParams().set('auth', token),
                 observe: 'body'
             });
     }
@@ -30,9 +31,10 @@ export class DataStorageService {
     getRecipes() {
         const token = this.authService.getToken();
         // this.httpClient.get<Recipe[]>(this.databaseRootUrl + this.recipeJson + '?auth=' + token)
-        this.httpClient.get<Recipe[]>(this.databaseRootUrl + this.recipeJson + '?auth=' + token, {
+        this.httpClient.get<Recipe[]>(this.databaseRootUrl + this.recipeJson, {
             observe: 'body',
-            responseType: 'json'
+            responseType: 'json',
+            params: new HttpParams().set('auth', token)
         })
             .pipe(
                 map(
