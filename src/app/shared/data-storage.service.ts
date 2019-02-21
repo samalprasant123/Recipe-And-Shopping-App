@@ -18,12 +18,13 @@ export class DataStorageService {
 
     storeRecipes() {
         const token = this.authService.getToken();
-        // const myHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+        const myHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+        // const myHeaders = new HttpHeaders().set('Authorization, 'Bearer uyadnap62490fj9');
         return this.httpClient.put(this.databaseRootUrl + this.recipeJson + '?auth=' + token,
-            this.recipeService.getRecipes(),
-            // { headers: myHeaders }
-            { observe: 'events' }
-            );
+            this.recipeService.getRecipes(), {
+                headers: myHeaders,
+                observe: 'body'
+            });
     }
 
     getRecipes() {
