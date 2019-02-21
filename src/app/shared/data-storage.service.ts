@@ -17,32 +17,19 @@ export class DataStorageService {
         private authService: AuthService) {}
 
     storeRecipes() {
-        const token = this.authService.getToken();
-        const myHeaders = new HttpHeaders({'Content-Type': 'application/json'});
-        // const myHeaders = new HttpHeaders().set('Authorization, 'Bearer uyadnap62490fj9');
-        // return this.httpClient.put(this.databaseRootUrl + this.recipeJson,
-        //     this.recipeService.getRecipes(), {
-        //         headers: myHeaders,
-        //         params: new HttpParams().set('auth', token),
-        //         observe: 'body'
-        //     });
         const req = new HttpRequest('PUT',
                             this.databaseRootUrl + this.recipeJson,
                             this.recipeService.getRecipes(),
                             {
-                                reportProgress: true,
-                                params: new HttpParams().set('auth', token),
+                                reportProgress: true
                             });
         return this.httpClient.request(req);
     }
 
     getRecipes() {
-        const token = this.authService.getToken();
-        // this.httpClient.get<Recipe[]>(this.databaseRootUrl + this.recipeJson + '?auth=' + token)
         this.httpClient.get<Recipe[]>(this.databaseRootUrl + this.recipeJson, {
             observe: 'body',
-            responseType: 'json',
-            params: new HttpParams().set('auth', token)
+            responseType: 'json'
         })
             .pipe(
                 map(
